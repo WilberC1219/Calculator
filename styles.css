@@ -30,6 +30,8 @@ body{
     background-color: #dfd5d5;
     gap: 50px;
     height: 100vh;
+    min-height: 557px;
+    min-width: 300px;
 }
 
 main{
@@ -41,6 +43,8 @@ main{
     justify-content: center;
     align-items: flex-end;
     padding: 30px;
+    min-height: 557px;
+    min-width: 300px;
 }
 footer{
     padding: 30px;
