@@ -4,6 +4,7 @@
         <meta charset="UTF-8" />
         <title>Calculator</title>
         <link href="styles.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script type="text/javascript" src="calc.js" defer></script>
         <link
         rel="stylesheet"
@@ -11,6 +12,32 @@
         />
     </head>
     <body>
+        <header>Calculator</header>
+        <main>
+            <div class="calc">
+                <!--Diplay section-->
+                <section class="num-display">
+                    <label class="current-num" id="display-label"></label>
+                </section>
+                <!-- button grid section will be put here-->
+                <div class="button-grid" id="btn-grid"></div>
+            </div>
+        </main>
 
+
+        <!-- Page Footer-->
+        <footer>
+            <small>
+                Copyright &#169;
+                <script> document.write(new Date().getFullYear())</script>
+                WilberC1219
+            </small>
+            <a 
+                href="https://github.com/WilberC1219"
+                target="_blank">
+                <i class="fa fa-github github-icon"> </i>
+            </a>
+
+        </footer> 
     </body>
 </html>
