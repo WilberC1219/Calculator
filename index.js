@@ -1,5 +1,4 @@
 import { calculator } from "./calculator.js";
-
 const calc = new calculator();
 const btn_chars = ["C", "+/-", "%", "÷", "7", "8","9", "×", 
 "4", "5", "6", "-", "1", "2", "3", "+", "0", ".", "="];
@@ -65,16 +64,7 @@ function addBtnEventListener(button, button_char){
     }
     //button is a special button
     else if(special_btns.has(button_char)){
-        //assign the proper function to this button depending on char
-        if(button_char === "C"){
-            button.addEventListener('click', reset);
-        }
-        else if(button_char == "+/-"){
-            button.addEventListener('click', oppositeSign);
-        }
-        else if(button_char == "+/-"){
-            button.addEventListener('click', oppositeSign);
-        }
+        specialListeners(button, button_char);
     }
     //button is operator
     else if(operator_btns.has(button_char)){
@@ -86,8 +76,34 @@ function addBtnEventListener(button, button_char){
     }
 }
 
+function specialListeners(button, button_char){
+    //assign the proper function to this button depending on char
+    if(button_char === "C"){
+        button.addEventListener('click', reset);
+    }
+    else if(button_char == "+/-"){
+        button.addEventListener('click', oppositeSign);
+    }
+    else if(button_char == "%"){
+        button.addEventListener('click', percent);
+    }
+    else{
+        console.error('Unknow button was clicked');
+    }
+}
 
 
+/**
+ * percent will give the percentage value of the 
+ * current number (current_num). I.e it will divide the displayed number by 100
+ * 
+ */
+function percent(){
+    let curr_num_content = current_num.textContent;
+    const res = calc.percentage(Number(curr_num_content));
+    clearCurrentNum();
+    current_num.appendChild(document.createTextNode(res));
+}
 
 /**
  * oppositeSign check the sign of the current number displayed
@@ -99,7 +115,7 @@ function oppositeSign(){
     let curr_num_content = current_num.textContent;
 
     //cannot make 0 negative or positive
-    if(curr_num_content == "0") return; 
+    if(Number(curr_num_content) == 0) return; 
 
     //if "-" is in the display, we must make it positive
     if(curr_num_content.includes("-")){
