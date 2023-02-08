@@ -2,23 +2,23 @@
 export class calculator{
 
     add(a, b){
-        return a + b;
+        return calculator.#toSciNotation(a + b);
     }
 
     sub(a, b){
-        return a - b;
+        return calculator.#toSciNotation(a - b);
     }
 
     multiply(a, b){
-        return a * b;
+        return calculator.#toSciNotation(a * b);
     }
 
     divide(a, b){
-        return a / b;
+        return calculator.#toSciNotation(a / b);
     }
 
     percentage(a){
-        return a / 100;
+        return calculator.#toSciNotation(a / 100);
     }
     /**
      * 
@@ -28,7 +28,8 @@ export class calculator{
      */
     static #toSciNotation(number){
         let num = number;
-        if(number.toString().length > 9){
+        console.log(number);
+        if(number.toString().length > 10){
             num = num.toExponential(3);
         }
         return num;
