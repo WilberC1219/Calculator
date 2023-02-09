@@ -6,10 +6,9 @@ const operator_btns = new Set(["÷", "×", "-", "+", "="]);
 const special_btns = new Set(["C", "+/-", "%"]);
 const current_num = document.getElementById('current-num');
 let operand1 = '';
-let operant2 = '';
-let operator = null;
-
-
+let operand2 = '';
+let curr_operator = null;
+let resetScreen = false;
 current_num.appendChild(document.createTextNode(`0`));
 
 /**
@@ -55,8 +54,13 @@ function addBtnClass(button, button_char){
     }
 }
 
+
+/**
+ * addBtnEventListener will add event listeners to
+ * all the buttons one the calculator.
+ * 
+ */
 function addBtnEventListener(button, button_char){
-    //create cases for the kinds of buttons possible
     
     //button is decimal
     if(button_char == "."){
@@ -68,7 +72,7 @@ function addBtnEventListener(button, button_char){
     }
     //button is operator
     else if(operator_btns.has(button_char)){
-        //assign the proper function to this button depending on char
+        operatorListeners(button);
     }
     //button is a number
     else{
@@ -76,9 +80,19 @@ function addBtnEventListener(button, button_char){
     }
 }
 
+
+function operatorListeners(button){
+    button.addEventListener('click', setOperator);
+}
+
+/**
+ * specialListeners will add event listeners to
+ * all the buttons that I defined as "special" ("C", "+/-", "%").
+ * 
+ */
 function specialListeners(button, button_char){
     //assign the proper function to this button depending on char
-    if(button_char === "C"){
+    if(button_char == "C"){
         button.addEventListener('click', reset);
     }
     else if(button_char == "+/-"){
@@ -103,6 +117,50 @@ function percent(){
     const res = calc.percentage(Number(curr_num_content));
     clearCurrentNum();
     current_num.appendChild(document.createTextNode(res));
+}
+
+function setOperator(e){
+    console.log(e.srcElement.value);
+    if(curr_operator !== null)  compute();
+
+    operand1 = current_num.textContent;
+    curr_operator = e.srcElement.value;
+    resetScreen = true;
+    console.log(`operand1 is: ${operand1}, operator is ${curr_operator}, resetScreen is ${resetScreen}`)
+}
+
+function compute(){
+    //if operator is null, do nothin
+    if(curr_operator === null || resetScreen) return;
+
+    operand2 = current_num.textContent
+    if(curr_operator == "÷" && operand2 == "0"){
+        console.error("Division by zero error");
+        alert("divison by zero error");
+        return;
+    }
+    console.log(`operand2 is ${operand2}`);
+    const result = document.createTextNode(`${operate()}`);
+    console.log(result.textContent);
+    current_num.removeChild(current_num.firstChild);
+    current_num.appendChild(result);
+    curr_operator = null;
+}
+
+function operate(){
+    const a = Number(operand1);
+    const b = Number(operand2);
+    console.log(operand1, curr_operator, operand2);
+    if(curr_operator == "÷")
+        return calc.divide(a, b);
+    else if (curr_operator == "×")
+        return calc.multiply(a, b);
+    else if (curr_operator == "+")
+        return calc.add(a, b);
+    else if (curr_operator == "-")
+        return calc.sub(a, b);
+    else
+        console.log(a, b);
 }
 
 /**
@@ -135,11 +193,17 @@ function oppositeSign(){
 /**
  * reset will reset the calculator program back to its initial default state
  */
-function reset(){
+function reset(screenonly = true){
     //clear operand1, operand2, and operator
-    operand1 = '';
-    operant2 = '';
-    operator = null;
+    if(screenonly){
+        operand1 = '';
+        operand2 = '';
+        curr_operator = null;
+        console.log('Full reset');
+    }
+    else{
+        console.log('display only reset');
+    }
     clearCurrentNum();
     current_num.appendChild(document.createTextNode(`0`));
 }
@@ -162,10 +226,12 @@ function appendDigit(e){
     let curr_num_content = current_num.textContent;
     const num = e.srcElement.value;
     //limit number entered at 9 digits long
+
     if(digitCount() > 8) return;
 
-    if(curr_num_content === "0"){
+    if(curr_num_content === "0" || resetScreen){
         curr_num_content = "";
+        resetScreen = false;
     }
 
     clearCurrentNum();
