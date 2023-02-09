@@ -84,6 +84,10 @@ button:hover{
     background-color: darkgrey;
 }
 
+.current-num{
+    word-break: break-all;
+}
+
 .zero{
     width: 100%;
     height: 100%;
@@ -98,7 +102,7 @@ button:hover{
 
 .num-display{
     text-align: right;
-    font-size: 44px;
+    font-size: 40px;
     padding: 0;
     margin: 0;
     color: white;
