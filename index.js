@@ -115,10 +115,11 @@ function oppositeSign(){
     let curr_num_content = current_num.textContent;
 
     //cannot make 0 negative or positive
+    console.log(Number(curr_num_content));
     if(Number(curr_num_content) == 0) return; 
 
     //if "-" is in the display, we must make it positive
-    if(curr_num_content.includes("-")){
+    if(curr_num_content.charAt(0) == "-"){
         curr_num_content = curr_num_content.substring(1, curr_num_content.length);
     }
     else{
