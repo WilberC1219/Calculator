@@ -28,7 +28,6 @@ export class calculator{
      */
     static #toSciNotation(number){
         let num = number;
-        console.log(number);
         if(number.toString().length > 10){
             num = num.toExponential(3);
         }
